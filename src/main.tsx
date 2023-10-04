@@ -173,7 +173,7 @@ console.log(BrandEmail.parse(email));
 
 /********** */
 
-// BUILT-IN ERROR HANDLING is much too detailed for use
+// BUILT-IN ERROR HANDLING is much too detailed for practical use
 
 /********** */
 
