@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { fromZodError } from 'zod-validation-error';
 
 /* DOCUMENTATION
 
@@ -84,16 +85,19 @@ console.log(UserSchema.parse(user));
 /************************************************************* */
 
 // SHAPE
+
 // console.log(UserSchema.shape.username);
 
 /************************************************************* */
 
 // PARTIAL
+
 // console.log(UserSchema.partial().parse(user));
 
 /************************************************************* */
 
 // RECORD
+
 // z.record validates the values of keys, but not the keys themselves
 const UserRecord = z.record(z.string());
 
@@ -108,6 +112,7 @@ console.log(UserRecord.parse(userWithRecord));
 /************************************************************* */
 
 // MAP
+
 const UserMap = z.map(z.string(), z.object({ name: z.string() }));
 
 const userFromMap = new Map([
@@ -120,6 +125,7 @@ console.log(UserMap.parse(userFromMap));
 /************************************************************* */
 
 // PROMISE
+
 const PromiseSchema = z.promise(z.string());
 
 // There are two steps to promise validation:
@@ -128,6 +134,31 @@ const PromiseSchema = z.promise(z.string());
 const promise = Promise.resolve('Hello there');
 
 console.log(PromiseSchema.parse(promise));
+
+/************************************************************* */
+
+// CUSTOM VALIDATION
+
+/********** */
+
+// .refine() is for high-level customization
+
+const BrandEmail = z
+  .string()
+  .email()
+  .refine(val => val.endsWith('@grow.com'), {
+    message: 'Email must end with @grow.com',
+});
+
+const email = 'jake.mcinerney@grow.com';
+// const wrongEmail = 'jake.mcinerney@epcior.com';
+
+console.log(BrandEmail.parse(email));
+// console.log(BrandEmail.parse(wrongEmail));
+
+/********** */
+
+// .superRefine() is for granular customization, although it may be too verbose for use in development
 
 /************************************************************* */
 
@@ -140,3 +171,16 @@ console.log(PromiseSchema.parse(promise));
 // This method can be useful for form validation
 // console.log(UserSchema.parseSafe(user));
 
+/********** */
+
+// BUILT-IN ERROR HANDLING is much too detailed for use
+
+/********** */
+
+// CUSTOM ERROR HANDLING USING zod-validation-error
+
+const results = UserSchema.safeParse(user);
+
+if (!results.success) {
+  console.log(fromZodError(results.error));
+}

@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zod": "^3.22.3"
+    "zod": "^3.22.3",
+    "zod-validation-error": "^1.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
