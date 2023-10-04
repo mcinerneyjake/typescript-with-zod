@@ -79,15 +79,19 @@ const user: User = {
   // name: 'Jake'
 };
 
-
-// PARSE
 console.log(UserSchema.parse(user));
+
+/************************************************************* */
 
 // SHAPE
 // console.log(UserSchema.shape.username);
 
+/************************************************************* */
+
 // PARTIAL
 // console.log(UserSchema.partial().parse(user));
+
+/************************************************************* */
 
 // RECORD
 // z.record validates the values of keys, but not the keys themselves
@@ -101,6 +105,8 @@ const userWithRecord = {
 
 console.log(UserRecord.parse(userWithRecord));
 
+/************************************************************* */
+
 // MAP
 const UserMap = z.map(z.string(), z.object({ name: z.string() }));
 
@@ -110,6 +116,8 @@ const userFromMap = new Map([
 ])
 
 console.log(UserMap.parse(userFromMap));
+
+/************************************************************* */
 
 // PROMISE
 const PromiseSchema = z.promise(z.string());
